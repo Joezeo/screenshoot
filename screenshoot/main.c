@@ -4,6 +4,12 @@
             Date:2017/12/6/18/31     
 **********************************************/
 #include <windows.h>
+#include "resource.h"
+#include "screen.h"
+
+#define WNDWIDTH 555
+#define WNDHEIGHT 100
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain(HINSTANCE hInstance,
 				   HINSTANCE hPrevInstance, 
@@ -23,27 +29,28 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = "MyMenu";
 	wndclass.lpszClassName = szWndClassName;
 
 	if (!RegisterClass(&wndclass)) {
 		MessageBox(NULL, "注册失败", "错误", MB_ICONERROR);
 		return 0;
 	}
-
+	HMENU hMenu = hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU));
 	hwnd = CreateWindow(
 		szWndClassName,		//windows class name
-		"Joezeo",			//windows caption	
-		WS_OVERLAPPEDWINDOW,//windows style
+		"截图工具",			//windows caption	
+		WS_OVERLAPPEDWINDOW,//windows style		全屏无按钮： WS_POPUP
 		CW_USEDEFAULT,		//intial x position
 		CW_USEDEFAULT,		//intial y position
-		CW_USEDEFAULT,		//intial x size
-		CW_USEDEFAULT,		//intial y size
+		WNDWIDTH,			//intial x size
+		WNDHEIGHT,			//intial y size
 		NULL,				//parent wnidow handle
-		NULL,				//window menu handle
+		hMenu,				// window menu handle
 		hInstance,			//program instance handle
 		NULL);				//creation paramenter
-	ShowWindow(hwnd, nShowCmd);
+
+	ShowWindow(hwnd, nShowCmd); // 全屏化： SW_MAXIMIZE
 	UpdateWindow(hwnd);
 
 	while (GetMessage(&msg, NULL, 0, 0)) {
@@ -63,6 +70,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);
 		GetClientRect(hwnd, &rect);
+		SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
+		DrawText(hdc, "点击新建开始截图~", -1, &rect, DT_LEFT);
 		EndPaint(hwnd, &ps);
 		return 0;
 	case WM_DESTROY:
