@@ -67,6 +67,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 	RECT rect;
 
 	switch (message) {
+	case WM_CREATE:
+		screen_caption();
+		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);
 		GetClientRect(hwnd, &rect);
