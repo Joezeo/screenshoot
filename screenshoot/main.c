@@ -68,8 +68,8 @@ WinMain(
 
 
 	hwnd = CreateWindow(
-		szWndClassName,                         //windows class name
-		"截图工具",								//windows caption	
+		szWndClassName,		     		        //windows class name
+		"截图工具",                              //windows caption	
 		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX,   //windows style		全屏无按钮： WS_POPUP
 		CW_USEDEFAULT,                          //intial x position
 		CW_USEDEFAULT,                          //intial y position
