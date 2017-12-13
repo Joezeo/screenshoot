@@ -9,7 +9,7 @@
 
 #define WNDWIDTH 555
 #define WNDHEIGHT 100
-
+HINSTANCE hIns;
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI WinMain(HINSTANCE hInstance,
 				   HINSTANCE hPrevInstance, 
@@ -68,7 +68,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
 	switch (message) {
 	case WM_CREATE:
-		screen_caption();
+
+		return 0;
+	case WM_MENUSELECT:
+		create_sreenshoot_window(hIns);
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);

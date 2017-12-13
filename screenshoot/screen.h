@@ -7,11 +7,15 @@
 extern "C" {
 #endif
 
-void
+HDC
 screen_caption();
 
 void
-create_sreenshoot_window();
+create_sreenshoot_window(HINSTANCE);
+
+LRESULT CALLBACK 
+ScreenProc(HWND, UINT, WPARAM, LPARAM);
+
 
 #ifdef __cplusplus
 }
