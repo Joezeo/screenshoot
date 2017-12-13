@@ -15,8 +15,8 @@
 HINSTANCE			hInst;
 extern HDC			mem_dc;
 extern SIZE			screen_size;
-TCHAR				szWndClassName[]		=		"FrameWin";
-TCHAR				szScreenClassName[]		=		"ScreenWin";
+TCHAR				szWndClassName[]	= "FrameWin";
+TCHAR				szScreenClassName[]	= "ScreenWin";
 
 
 int WINAPI 
@@ -34,25 +34,25 @@ WinMain(
 
 	hInst = hInstance;
 
-	wndclass.style			=		CS_HREDRAW | CS_VREDRAW;
+	wndclass.style			= CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc	=		WndProc;
+	wndclass.lpfnWndProc	= WndProc;
 
-	wndclass.cbClsExtra		=		0;
+	wndclass.cbClsExtra		= 0;
 
-	wndclass.cbWndExtra		=		0;
+	wndclass.cbWndExtra		= 0;
 
-	wndclass.hInstance		=		hInstance;
+	wndclass.hInstance		= hInstance;
 
-	wndclass.hIcon			=	    LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYICON));
+	wndclass.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BIGICON));
 
-	wndclass.hCursor		=		LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor		= LoadCursor(NULL, IDC_ARROW);
 
-	wndclass.hbrBackground	=		(HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);
 
-	wndclass.lpszMenuName	=		"MyMenu";
+	wndclass.lpszMenuName	= "MyMenu";
 
-	wndclass.lpszClassName  =		szWndClassName;
+	wndclass.lpszClassName	= szWndClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
@@ -68,17 +68,17 @@ WinMain(
 
 
 	hwnd = CreateWindow(
-		szWndClassName,		//windows class name
-		"截图工具",			//windows caption	
-		WS_OVERLAPPEDWINDOW,//windows style		全屏无按钮： WS_POPUP
-		CW_USEDEFAULT,		//intial x position
-		CW_USEDEFAULT,		//intial y position
-		WNDWIDTH,			//intial x size
-		WNDHEIGHT,			//intial y size
-		NULL,				//parent wnidow handle
-		hMenu,				// window menu handle
-		hInstance,			//program instance handle
-		NULL);				//creation paramenter
+		szWndClassName,							//windows class name
+		"截图工具",								//windows caption	
+		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX,	//windows style		全屏无按钮： WS_POPUP
+		CW_USEDEFAULT,							//intial x position
+		CW_USEDEFAULT,							//intial y position
+		WNDWIDTH,								//intial x size
+		WNDHEIGHT,								//intial y size
+		NULL,									//parent wnidow handle
+		hMenu,									// window menu handle
+		hInstance,								//program instance handle
+		NULL);									//creation paramenter
 
 
 	ShowWindow(hwnd, nShowCmd); // 全屏化： SW_MAXIMIZE
@@ -104,25 +104,25 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 	WNDCLASS			wndclass;
 
-	wndclass.style			=		CS_HREDRAW | CS_VREDRAW;
+	wndclass.style			= CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc	=		ScreenProc;
+	wndclass.lpfnWndProc	= ScreenProc;
 
-	wndclass.cbClsExtra		=		0;
+	wndclass.cbClsExtra		= 0;
 
-	wndclass.cbWndExtra		=		sizeof(HANDLE);
+	wndclass.cbWndExtra		= sizeof(HANDLE);
 
-	wndclass.hInstance		=		hInstance;
+	wndclass.hInstance		= hInstance;
 
-	wndclass.hIcon			=		LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);
 
-	wndclass.hCursor		=		LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor		= LoadCursor(NULL, IDC_ARROW);
 
-	wndclass.hbrBackground	=		(HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);
 
-	wndclass.lpszMenuName	=		NULL;
+	wndclass.lpszMenuName	= NULL;
 
-	wndclass.lpszClassName	=		szScreenClassName;
+	wndclass.lpszClassName	= szScreenClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
@@ -218,9 +218,9 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
-	HDC							 hdc;
-	PAINTSTRUCT					 ps;
-	RECT						 rect;
+	HDC								hdc;
+	PAINTSTRUCT						ps;
+	RECT							rect;
 
 	switch (message) {
 

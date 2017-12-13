@@ -123,7 +123,7 @@
     <ResourceCompile Include="screenshoot.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\res\MyIcon.ico" />
+    <Image Include="..\res\big.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
