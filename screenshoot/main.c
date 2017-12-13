@@ -26,33 +26,33 @@ WinMain(
 	LPSTR	  lpCmdLine,
 	int		  nShowCmd) {
 
-	HWND			hwnd;
+	HWND			    hwnd;
 
-	MSG				msg;
+	MSG                 msg;
 
-	WNDCLASS		wndclass;
+	WNDCLASS            wndclass;
 
 	hInst = hInstance;
 
-	wndclass.style				= CS_HREDRAW | CS_VREDRAW;
+	wndclass.style              = CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc		= WndProc;
+	wndclass.lpfnWndProc        = WndProc;
 
-	wndclass.cbClsExtra			= 0;
+	wndclass.cbClsExtra         = 0;
 
-	wndclass.cbWndExtra			= 0;
+	wndclass.cbWndExtra         = 0;
 
-	wndclass.hInstance			= hInstance;
+	wndclass.hInstance          = hInstance;
 
-	wndclass.hIcon				= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BIGICON));
+	wndclass.hIcon              = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BIGICON));
 
-	wndclass.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor            = LoadCursor(NULL, IDC_ARROW);
 
-	wndclass.hbrBackground		= (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground      = (HBRUSH)GetStockObject(WHITE_BRUSH);
 
-	wndclass.lpszMenuName		= "MyMenu";
+	wndclass.lpszMenuName       = "MyMenu";
 
-	wndclass.lpszClassName		= szWndClassName;
+	wndclass.lpszClassName      = szWndClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
@@ -104,25 +104,25 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 	WNDCLASS			wndclass;
 
-	wndclass.style				= CS_HREDRAW | CS_VREDRAW;
+	wndclass.style              = CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc		= ScreenProc;
+	wndclass.lpfnWndProc        = ScreenProc;
 
-	wndclass.cbClsExtra			= 0;
+	wndclass.cbClsExtra         = 0;
 
-	wndclass.cbWndExtra			= sizeof(HANDLE);
+	wndclass.cbWndExtra         = sizeof(HANDLE);
 
-	wndclass.hInstance			= hInstance;
+	wndclass.hInstance          = hInstance;
 
-	wndclass.hIcon				= LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon              = LoadIcon(NULL, IDI_APPLICATION);
 
-	wndclass.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor            = LoadCursor(NULL, IDC_ARROW);
 
-	wndclass.hbrBackground		= (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground      = (HBRUSH)GetStockObject(WHITE_BRUSH);
 
-	wndclass.lpszMenuName		= NULL;
+	wndclass.lpszMenuName       = NULL;
 
-	wndclass.lpszClassName		= szScreenClassName;
+	wndclass.lpszClassName      = szScreenClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
@@ -148,13 +148,13 @@ show_screenshoot_window(HWND hwnd) {
 LRESULT CALLBACK 
 WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
-	HDC							hdc;
+	HDC                         hdc;
 
-	PAINTSTRUCT					ps;
+	PAINTSTRUCT                 ps;
 
-	RECT						rect;
+	RECT                        rect;
 
-	static HWND					ChildWnd;
+	static HWND                 ChildWnd;
 
 	switch (message) {
 	case WM_CREATE: 
@@ -218,9 +218,9 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
-	HDC								hdc;
-	PAINTSTRUCT						ps;
-	RECT							rect;
+	HDC                             hdc;
+	PAINTSTRUCT                     ps;
+	RECT                            rect;
 
 	switch (message) {
 
