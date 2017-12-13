@@ -10,12 +10,11 @@
 
 #define		WNDWIDTH				555
 #define		WNDHEIGHT				100
-#define		IDM_FIRSTCHILD			50000
 
 
-HINSTANCE							hInst;
-TCHAR								szWndClassName[]	 =	"FrameWin";
-TCHAR								szScreenClassName[]	 =	"ScreenWin";
+HINSTANCE			hInst;
+TCHAR				szWndClassName[]	 =		"FrameWin";
+TCHAR				szScreenClassName[]	 =		"ScreenWin";
 
 
 int WINAPI 
@@ -144,10 +143,22 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 void
 show_screenshoot_window(HWND hwnd) {
 
+	MSG			msg;
+
 	ShowWindow(hwnd, SW_MAXIMIZE);
 
 	UpdateWindow(hwnd);
 
+	/*while (GetMessage(&msg, NULL, 0, 0)) {
+
+		if (!TranslateMDISysAccel(hwnd, &msg)){
+
+			TranslateMessage(&msg);
+
+			DispatchMessage(&msg);
+
+		}
+	}*/
 }
 
 
@@ -160,44 +171,25 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 	RECT						rect;
 
-	static HWND                 hwndClient;
-
-	CLIENTCREATESTRUCT          clientcreate;
-
-	static HWND                 hwndChild;
-
-	MDICREATESTRUCT             mdicreate;
-
+	static HWND					ChildWnd;
 
 	switch (message) {
 	case WM_CREATE:
 
-		clientcreate.idFirstChild = IDM_FIRSTCHILD;
-
-		hwndClient = CreateWindow(TEXT("ScreenWin"), NULL,
-
-			WS_CHILD | WS_POPUP,
-
-			0, 0, 0, 0, hwnd, (HMENU)1, hInst,
-
-			(PSTR)&clientcreate);
-
-		hwndChild = CreateWindow(TEXT("ScreenWin"), NULL,
-
-			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE | WS_POPUP,
-
-			0, 0, 0, 0, hwnd, (HMENU)1, hInst,
-
-			(PSTR)&clientcreate);
+		ChildWnd = CreateWindow(szScreenClassName, TEXT("Child Demo"),
+			WS_POPUP,
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+			hwnd, NULL, hInst, NULL);
 
 		return 0;
+
 	case WM_MENUSELECT:
 
 		switch (LOWORD(wparam)) {
 
 		case IDABORT:
 
-			show_screenshoot_window(hwndClient);
+			show_screenshoot_window(ChildWnd);
 
 			break;
 

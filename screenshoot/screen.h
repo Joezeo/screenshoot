@@ -10,9 +10,6 @@ extern "C" {
 void
 screen_caption(HDC);
 
-
-
-
 #ifdef __cplusplus
 }
 #endif

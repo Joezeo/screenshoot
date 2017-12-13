@@ -9,17 +9,17 @@
 extern "C"{
 #endif
 
-	void
-		registe_sreenshoot_window(HINSTANCE);
+void
+registe_sreenshoot_window(HINSTANCE);
 
-	void
-		show_screenshoot_window(HWND hwnd);
+void
+show_screenshoot_window(HWND hwnd);
 
-	LRESULT CALLBACK
-		WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK
+WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	LRESULT CALLBACK
-		ScreenProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK
+ScreenProc(HWND, UINT, WPARAM, LPARAM);
 
 #ifdef __cplusplus
 }
