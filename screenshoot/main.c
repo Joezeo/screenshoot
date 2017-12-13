@@ -13,8 +13,10 @@
 
 
 HINSTANCE			hInst;
-TCHAR				szWndClassName[]	 =		"FrameWin";
-TCHAR				szScreenClassName[]	 =		"ScreenWin";
+extern HDC			mem_dc;
+extern SIZE			screen_size;
+TCHAR				szWndClassName[] = "FrameWin";
+TCHAR				szScreenClassName[] = "ScreenWin";
 
 
 int WINAPI 
@@ -23,8 +25,6 @@ WinMain(
 	HINSTANCE hPrevInstance, 
     LPSTR	  lpCmdLine,
 	int		  nShowCmd) {
-
-	HACCEL			hAccel;
 
 	HWND			hwnd, screen_hwnd;
 
@@ -66,9 +66,6 @@ WinMain(
 	HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU));
 
 
-	hAccel = LoadAccelerators(hInstance, szWndClassName);
-
-
 	hwnd = CreateWindow(
 		szWndClassName,		//windows class name
 		"截图工具",			//windows caption	
@@ -83,22 +80,19 @@ WinMain(
 		NULL);				//creation paramenter
 
 
-	screen_hwnd = GetWindow(hwnd, GW_CHILD);
-
-
 	ShowWindow(hwnd, nShowCmd); // 全屏化： SW_MAXIMIZE
 
 	UpdateWindow(hwnd);
 
 
 	while (GetMessage(&msg, NULL, 0, 0)) {
-		if (!TranslateMDISysAccel(screen_hwnd, &msg) &&
-			!TranslateAccelerator(hwnd, hAccel, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+
+		TranslateMessage(&msg);
+
+		DispatchMessage(&msg);
+
 	}
+
 	return msg.wParam;
 }
 
@@ -222,11 +216,18 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
-	HDC					 hdc;
-	PAINTSTRUCT			 ps;
-	RECT				 rect;
+
+	HDC							 hdc;
+	PAINTSTRUCT					 ps;
+	RECT						 rect;
 
 	switch (message) {
+
+	case WM_CREATE:
+
+		screen_caption(hwnd);
+
+		return 0;
 
 	case WM_PAINT:
 
@@ -234,7 +235,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		GetClientRect(hwnd, &rect);
 
-		screen_caption(hdc);
+		BitBlt(hdc, 0, 0, screen_size.cx, screen_size.cy, mem_dc, 0, 0, SRCCOPY);
 
 		EndPaint(hwnd, &ps);
 

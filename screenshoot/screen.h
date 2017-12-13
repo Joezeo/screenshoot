@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 void
-screen_caption(HDC);
+screen_caption();
 
 #ifdef __cplusplus
 }

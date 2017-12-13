@@ -1,13 +1,14 @@
 #include "screen.h"
 
+HDC					mem_dc;
+SIZE				screen_size;
+
 void 
-screen_caption(HDC hdc){
+screen_caption(){
 
-	HDC desk_dc = CreateDC("DISPLAY", 0, 0, 0);		// 桌面设备句柄
+	HDC desk_dc = CreateDC(L"DISPLAY", NULL, NULL, NULL);// 桌面设备句柄
 
-	HDC mem_dc = CreateCompatibleDC(desk_dc);			// 与桌面desk_dc相兼容的临时缓存hdc
-
-	SIZE screen_size;
+	mem_dc = CreateCompatibleDC(desk_dc);				// 与桌面desk_dc相兼容的临时缓存hdc
 
 	screen_size.cx = GetDeviceCaps(desk_dc, HORZRES);	// 水平分辨率为宽
 
@@ -18,8 +19,6 @@ screen_caption(HDC hdc){
 	SelectObject(mem_dc, hBmp);
 
 	BitBlt(mem_dc, 0, 0, screen_size.cx, screen_size.cy, desk_dc, 0, 0, SRCCOPY);
-
-	BitBlt(hdc, 0, 0, screen_size.cx, screen_size.cy, mem_dc, 0, 0, SRCCOPY);
 
 }
 
