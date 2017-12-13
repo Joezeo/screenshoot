@@ -122,7 +122,7 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 	wndclass.lpszMenuName		= NULL;
 
-	wndclass.lpszClassName	= szScreenClassName;
+	wndclass.lpszClassName		= szScreenClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
