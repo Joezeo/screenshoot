@@ -24,18 +24,18 @@ WinMain(
     LPSTR	  lpCmdLine,
 	int		  nShowCmd) {
 
-	HACCEL          hAccel;
+	HACCEL			hAccel;
 
 	HWND			hwnd, screen_hwnd;
 
-	MSG			    msg;
+	MSG				msg;
 
 	WNDCLASS		wndclass;
 
 
 	wndclass.style			=		CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc    =		WndProc;
+	wndclass.lpfnWndProc	=		WndProc;
 
 	wndclass.cbClsExtra		=		0;
 
@@ -45,7 +45,7 @@ WinMain(
 
 	wndclass.hIcon			=	    LoadIcon(NULL, IDI_APPLICATION);
 
-	wndclass.hCursor	    =		LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor		=		LoadCursor(NULL, IDC_ARROW);
 
 	wndclass.hbrBackground	=		(HBRUSH)GetStockObject(WHITE_BRUSH);
 
@@ -107,27 +107,27 @@ void
 registe_sreenshoot_window(HINSTANCE hInstance) {
 
 
-	WNDCLASS		 wndclass;
+	WNDCLASS			wndclass;
 
-	wndclass.style = CS_HREDRAW | CS_VREDRAW;
+	wndclass.style			=		CS_HREDRAW | CS_VREDRAW;
 
-	wndclass.lpfnWndProc = ScreenProc;
+	wndclass.lpfnWndProc	=		ScreenProc;
 
-	wndclass.cbClsExtra = 0;
+	wndclass.cbClsExtra		=		0;
 
-	wndclass.cbWndExtra = sizeof(HANDLE);
+	wndclass.cbWndExtra		=		sizeof(HANDLE);
 
-	wndclass.hInstance = hInstance;
+	wndclass.hInstance		=		hInstance;
 
-	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon			=		LoadIcon(NULL, IDI_APPLICATION);
 
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor		=		LoadCursor(NULL, IDC_ARROW);
 
-	wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground	=		(HBRUSH)GetStockObject(WHITE_BRUSH);
 
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName	=		NULL;
 
-	wndclass.lpszClassName = szScreenClassName;
+	wndclass.lpszClassName	=		szScreenClassName;
 
 
 	if (!RegisterClass(&wndclass)) {
@@ -143,22 +143,10 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 void
 show_screenshoot_window(HWND hwnd) {
 
-	MSG			msg;
-
 	ShowWindow(hwnd, SW_MAXIMIZE);
 
 	UpdateWindow(hwnd);
 
-	/*while (GetMessage(&msg, NULL, 0, 0)) {
-
-		if (!TranslateMDISysAccel(hwnd, &msg)){
-
-			TranslateMessage(&msg);
-
-			DispatchMessage(&msg);
-
-		}
-	}*/
 }
 
 
@@ -174,7 +162,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 	static HWND					ChildWnd;
 
 	switch (message) {
-	case WM_CREATE:
+	case WM_CREATE: 
 
 		ChildWnd = CreateWindow(szScreenClassName, TEXT("Child Demo"),
 			WS_POPUP,
@@ -182,8 +170,9 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 			hwnd, NULL, hInst, NULL);
 
 		return 0;
+	
 
-	case WM_MENUSELECT:
+	case WM_MENUSELECT: 
 
 		switch (LOWORD(wparam)) {
 
@@ -201,9 +190,9 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 		}
 		return 0;
+	
 
-
-	case WM_PAINT:
+	case WM_PAINT: 
 
 		hdc = BeginPaint(hwnd, &ps);
 
@@ -216,15 +205,16 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 		EndPaint(hwnd, &ps);
 
 		return 0;
+	
 
-
-	case WM_DESTROY:
+	case WM_DESTROY: 
 
 		PostQuitMessage(0);
 
 		return 0;
-
+	
 	}
+
 
 	return DefWindowProc(hwnd, message, wparam, lparam);
 }
@@ -239,6 +229,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	switch (message) {
 
 	case WM_PAINT:
+
 		hdc = BeginPaint(hwnd, &ps);
 
 		GetClientRect(hwnd, &rect);
@@ -249,10 +240,13 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		return 0;
 
+
 	case WM_KEYDOWN:
+
 		switch (wparam) {
 
 		case VK_ESCAPE:
+
 			SendMessage(hwnd, WM_DESTROY, 0, 0);
 
 			break;
@@ -260,6 +254,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		}
 
 		return 0;
+
 
 	case WM_DESTROY:
 
