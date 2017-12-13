@@ -15,8 +15,8 @@
 HINSTANCE			hInst;
 extern HDC			mem_dc;
 extern SIZE			screen_size;
-TCHAR				szWndClassName[] = "FrameWin";
-TCHAR				szScreenClassName[] = "ScreenWin";
+TCHAR				szWndClassName[]		=		"FrameWin";
+TCHAR				szScreenClassName[]		=		"ScreenWin";
 
 
 int WINAPI 
@@ -26,12 +26,13 @@ WinMain(
     LPSTR	  lpCmdLine,
 	int		  nShowCmd) {
 
-	HWND			hwnd, screen_hwnd;
+	HWND			hwnd;
 
 	MSG				msg;
 
 	WNDCLASS		wndclass;
 
+	hInst = hInstance;
 
 	wndclass.style			=		CS_HREDRAW | CS_VREDRAW;
 
@@ -43,7 +44,7 @@ WinMain(
 
 	wndclass.hInstance		=		hInstance;
 
-	wndclass.hIcon			=	    LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon			=	    LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYICON));
 
 	wndclass.hCursor		=		LoadCursor(NULL, IDC_ARROW);
 
@@ -128,7 +129,7 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 		MessageBox(NULL, "×¢²áÊ§°Ü", "´íÎó", MB_ICONERROR);
 
-		return 0;
+		return;
 	}
 
 }
@@ -176,7 +177,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 			break;
 
-		case ID_40003:
+		case ID_40001:
 
 			SendMessage(hwnd, WM_DESTROY, 0, 0);
 

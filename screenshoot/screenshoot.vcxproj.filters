@@ -38,4 +38,9 @@
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\MyIcon.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
