@@ -117,7 +117,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="screen.h" />
-    <ClInclude Include="ScreenWnd.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="screenshoot.rc" />

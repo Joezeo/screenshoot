@@ -1,5 +1,5 @@
-#ifndef __SCREEN__
-#define __SCREEN__
+#ifndef __SCREEN_H__
+#define __SCREEN_H__
 
 #include <windows.h>
 
@@ -7,14 +7,10 @@
 extern "C" {
 #endif
 
-HDC
-screen_caption();
-
 void
-create_sreenshoot_window(HINSTANCE);
+screen_caption(HDC);
 
-LRESULT CALLBACK 
-ScreenProc(HWND, UINT, WPARAM, LPARAM);
+
 
 
 #ifdef __cplusplus

@@ -29,7 +29,7 @@
     <ClInclude Include="screen.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenWnd.h">
+    <ClInclude Include="main.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
