@@ -7,7 +7,7 @@
 #include "resource.h"
 #include "screen.h"
 
-
+static RECT			rcClient;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
@@ -224,29 +224,21 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	HDC                             hdc;
 	PAINTSTRUCT                     ps;
 	RECT                            rect;
+	static HDC						*memDc;
 
 	switch (message) {
 
 	case WM_CREATE:
 
-		hdcScreen = GetDC(NULL);
+		memDc = screen_caption(hwnd);
 
 		return 0;
 
 	case WM_PAINT:
 
 		hdc = BeginPaint(hwnd, &ps);
-		GetClientRect(hwnd, &rect);
-		SetStretchBltMode(hdc, HALFTONE); // 设置位图为拉伸模式
 
-		StretchBlt(hdc,
-			0, 0,
-			rect.right, rect.bottom,
-			hdcScreen,
-			0, 0,
-			GetSystemMetrics(SM_CXSCREEN),
-			GetSystemMetrics(SM_CYSCREEN),
-			SRCCOPY);
+		draw_caption(*memDc, hdc);
 
 		EndPaint(hwnd, &ps);
 

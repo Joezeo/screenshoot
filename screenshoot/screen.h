@@ -7,8 +7,12 @@
 extern "C" {
 #endif
 
+HDC *
+screen_caption(HWND);
+
 void
-screen_caption();
+draw_caption(HBITMAP, HDC);
+
 
 #ifdef __cplusplus
 }
