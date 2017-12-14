@@ -8,6 +8,7 @@
 #include "screen.h"
 
 extern RECT			rcClient;
+extern HDC			memDc;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
@@ -224,13 +225,12 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	HDC                             hdc;
 	PAINTSTRUCT                     ps;
 	RECT                            rect;
-	static HDC						*memDc;
 
 	switch (message) {
 
 	case WM_CREATE:
 
-		memDc = screen_caption(hwnd);
+		screen_caption(hwnd);
 
 		return 0;
 
@@ -238,7 +238,9 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		hdc = BeginPaint(hwnd, &ps);
 
-		draw_caption(*memDc, hdc);
+		HDC tmp_hdc = GetDC(hwnd);
+
+		draw_caption(tmp_hdc);
 
 		EndPaint(hwnd, &ps);
 

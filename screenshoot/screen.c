@@ -1,12 +1,13 @@
 #include "screen.h"
 
 RECT					rcClient;
+HDC						memDc;
 
-HDC *
+void
 screen_caption(HWND hwnd) {
 
 	static HBITMAP      hbmScreen;
-	static HDC			memDc;
+
 
 	HDC screenDc = GetDC(NULL);
 	HDC windowDc = GetDC(hwnd);
@@ -30,23 +31,21 @@ screen_caption(HWND hwnd) {
 		GetSystemMetrics(SM_CYSCREEN),
 		SRCCOPY);
 
-	return &memDc;
 }
 
 void
-draw_caption(HDC memDC, HDC hdc) {
+draw_caption(HDC hdc) {
 
 	SetStretchBltMode(hdc, HALFTONE);
 
 	StretchBlt(hdc,
 		0, 0,
 		rcClient.right, rcClient.bottom,
-		memDC,
+		memDc,
 		0, 0,
 		GetSystemMetrics(SM_CXSCREEN),
 		GetSystemMetrics(SM_CYSCREEN),
 		SRCCOPY);
 
-	DeleteDC(memDC);
 }
 
