@@ -15,6 +15,7 @@
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
+int					nCmd;
 
 
 int WINAPI 
@@ -31,6 +32,7 @@ WinMain(
 	WNDCLASS                wndclass;
 
 	hInst = hInstance;
+	nCmd  = nShowCmd;
 
 	wndclass.style              = CS_HREDRAW | CS_VREDRAW;
 

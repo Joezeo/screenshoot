@@ -70,7 +70,7 @@ screen_caption(HWND hWnd){
 	//Clean up
 done:
 	DeleteObject(hbmScreen);
-	// DeleteObject(hdcMemDC);
+	DeleteObject(hdcMemDC);
 	ReleaseDC(NULL, hdcScreen);
 	ReleaseDC(hWnd, hdcWindow);
 
