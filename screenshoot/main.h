@@ -9,6 +9,9 @@
 extern "C"{
 #endif
 
+#define		WNDWIDTH				555
+#define		WNDHEIGHT				100
+
 void
 registe_sreenshoot_window(HINSTANCE);
 
