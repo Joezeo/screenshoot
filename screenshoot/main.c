@@ -8,15 +8,10 @@
 #include "screen.h"
 
 
-#define		WNDWIDTH				555
-#define		WNDHEIGHT				100
-
-
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
-int					nCmd;
-
+HDC					hdcScreen;
 
 int WINAPI 
 WinMain(
@@ -32,7 +27,6 @@ WinMain(
 	WNDCLASS                wndclass;
 
 	hInst = hInstance;
-	nCmd  = nShowCmd;
 
 	wndclass.style              = CS_HREDRAW | CS_VREDRAW;
 
@@ -233,11 +227,26 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	switch (message) {
 
+	case WM_CREATE:
+
+		hdcScreen = GetDC(NULL);
+
+		return 0;
+
 	case WM_PAINT:
 
 		hdc = BeginPaint(hwnd, &ps);
+		GetClientRect(hwnd, &rect);
+		SetStretchBltMode(hdc, HALFTONE); // 设置位图为拉伸模式
 
-		screen_caption(hwnd);
+		StretchBlt(hdc,
+			0, 0,
+			rect.right, rect.bottom,
+			hdcScreen,
+			0, 0,
+			GetSystemMetrics(SM_CXSCREEN),
+			GetSystemMetrics(SM_CYSCREEN),
+			SRCCOPY);
 
 		EndPaint(hwnd, &ps);
 
