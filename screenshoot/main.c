@@ -13,8 +13,6 @@
 
 
 HINSTANCE			hInst;
-extern HDC			mem_dc;
-extern SIZE			screen_size;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
 
@@ -235,15 +233,9 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	case WM_PAINT:
 
-		screen_caption();
-
 		hdc = BeginPaint(hwnd, &ps);
 
-		GetClientRect(hwnd, &rect);
-
-		DrawText(hdc, "点击新建开始截图~（截图过程中按ESC取消截图）", -1, &rect, DT_LEFT);
-
-		BitBlt(hdc, 0, 0, screen_size.cx, screen_size.cy, mem_dc, 0, 0, SRCCOPY);
+		screen_caption(hwnd);
 
 		EndPaint(hwnd, &ps);
 

@@ -1,24 +1,78 @@
 #include "screen.h"
 
-HDC					mem_dc;
-SIZE				screen_size;
-
 void 
-screen_caption(){
+screen_caption(HWND hWnd){
+	HDC hdcScreen;
+	HDC hdcWindow;
+	HDC hdcMemDC = NULL;
+	HBITMAP hbmScreen = NULL;
+	BITMAP bmpScreen;
 
-	HDC desk_dc = CreateDC(L"DISPLAY", 0, 0, 0);        // 桌面设备句柄
+	// Retrieve the handle to a display device context for the client 
+	// area of the window. 
+	hdcScreen = GetDC(NULL); // GetDC(NULL)表示整个屏幕的dc
+	hdcWindow = GetDC(hWnd); // 创建当前窗口的hdc
 
-	mem_dc = CreateCompatibleDC(desk_dc);               // 与桌面desk_dc相兼容的临时缓存hdc
+	// Create a compatible DC which is used in a BitBlt from the window DC
+	hdcMemDC = CreateCompatibleDC(hdcWindow);
 
-	screen_size.cx = GetDeviceCaps(desk_dc, HORZRES);   // 水平分辨率为宽
+	if (!hdcMemDC)
+	{
+		MessageBox(hWnd, "CreateCompatibleDC has failed", "Failed", MB_OK);
+		goto done;
+	}
 
-	screen_size.cy = GetDeviceCaps(desk_dc, VERTRES);   // 垂直分辨率为高
+	// Get the client area for size calculation
+	RECT rcClient;
+	GetClientRect(hWnd, &rcClient);
 
-	HBITMAP hBmp = CreateCompatibleBitmap(desk_dc, screen_size.cx, screen_size.cy);	//创建画布
+	//This is the best stretch mode
+	SetStretchBltMode(hdcWindow, HALFTONE); // 设置位图为拉伸模式
 
-	SelectObject(mem_dc, hBmp);                         //画布放入mem_dc中
+	//The source DC is the entire screen and the destination DC is the current window (HWND)
+	if (!StretchBlt(hdcWindow,
+		0, 0,
+		rcClient.right, rcClient.bottom,
+		hdcScreen,
+		0, 0,
+		GetSystemMetrics(SM_CXSCREEN),
+		GetSystemMetrics(SM_CYSCREEN),
+		SRCCOPY))
+	{
+		MessageBox(hWnd, "StretchBlt has failed", "Failed", MB_OK);
+		goto done;
+	}
 
-	BitBlt(mem_dc, 0, 0, screen_size.cx, screen_size.cy, desk_dc, 0, 0, SRCCOPY);
+	// Create a compatible bitmap from the Window DC
+	hbmScreen = CreateCompatibleBitmap(hdcWindow, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+
+	if (!hbmScreen)
+	{
+		MessageBox(hWnd, "CreateCompatibleBitmap Failed", "Failed", MB_OK);
+		goto done;
+	}
+
+	// Select the compatible bitmap into the compatible memory DC.
+	SelectObject(hdcMemDC, hbmScreen);
+
+	// Bit block transfer into our compatible memory DC.
+	if (!BitBlt(hdcMemDC,
+		0, 0,
+		rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
+		hdcScreen,
+		0, 0,
+		SRCCOPY))
+	{
+		MessageBox(hWnd, "BitBlt has failed", "Failed", MB_OK);
+		goto done;
+	}
+
+	//Clean up
+done:
+	DeleteObject(hbmScreen);
+	// DeleteObject(hdcMemDC);
+	ReleaseDC(NULL, hdcScreen);
+	ReleaseDC(hWnd, hdcWindow);
 
 }
 
