@@ -7,7 +7,7 @@
 #include "resource.h"
 #include "screen.h"
 
-static RECT			rcClient;
+extern RECT			rcClient;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";

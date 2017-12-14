@@ -27,6 +27,12 @@ WndProc(HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK
 ScreenProc(HWND, UINT, WPARAM, LPARAM);
 
+HDC *
+screen_caption(HWND);
+
+void
+draw_caption(HBITMAP, HDC);
+
 
 #ifdef __cplusplus
 }
