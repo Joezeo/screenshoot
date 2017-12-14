@@ -68,9 +68,10 @@ WinMain(
 
 
 	hwnd = CreateWindow(
-		szWndClassName,		     		        //windows class name
+		szWndClassName,                         //windows class name
 		"截图工具",                              //windows caption	
-		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX,   //windows style		全屏无按钮： WS_POPUP
+		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX
+		^ WS_THICKFRAME,                        //windows style
 		CW_USEDEFAULT,                          //intial x position
 		CW_USEDEFAULT,                          //intial y position
 		WNDWIDTH,                               //intial x size
@@ -136,6 +137,17 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 
 void
+create_screenshoot_window(HWND *hwnd, HWND phwnd) {
+
+	*hwnd = CreateWindow(szScreenClassName, TEXT("Child Demo"),
+		WS_POPUP,
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		phwnd, NULL, hInst, NULL);
+
+}
+
+
+void
 show_screenshoot_window(HWND hwnd) {
 
 	ShowWindow(hwnd, SW_MAXIMIZE);
@@ -159,10 +171,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 	switch (message) {
 	case WM_CREATE: 
 
-		ChildWnd = CreateWindow(szScreenClassName, TEXT("Child Demo"),
-			WS_POPUP,
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, NULL, hInst, NULL);
+		create_screenshoot_window(&ChildWnd, hwnd);
 
 		return 0;
 	
@@ -179,7 +188,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 		case ID_40001:
 
-			SendMessage(hwnd, WM_DESTROY, 0, 0);
+			SendMessage(hwnd, WM_CLOSE, 0, 0);
 
 			break;
 
@@ -195,7 +204,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 		SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
 
-		DrawText(hdc, "点击新建开始截图~", -1, &rect, DT_LEFT);
+		DrawText(hdc, "点击新建开始截图~（截图过程中按ESC取消截图）", -1, &rect, DT_LEFT);
 
 		EndPaint(hwnd, &ps);
 
@@ -224,17 +233,15 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	switch (message) {
 
-	case WM_CREATE:
-
-		screen_caption(hwnd);
-
-		return 0;
-
 	case WM_PAINT:
+
+		screen_caption();
 
 		hdc = BeginPaint(hwnd, &ps);
 
 		GetClientRect(hwnd, &rect);
+
+		DrawText(hdc, "点击新建开始截图~（截图过程中按ESC取消截图）", -1, &rect, DT_LEFT);
 
 		BitBlt(hdc, 0, 0, screen_size.cx, screen_size.cy, mem_dc, 0, 0, SRCCOPY);
 
@@ -249,7 +256,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		case VK_ESCAPE:
 
-			SendMessage(hwnd, WM_DESTROY, 0, 0);
+			ShowWindow(hwnd, SW_HIDE);
 
 			break;
 
@@ -263,6 +270,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		PostQuitMessage(0);
 
 		return 0;
+
 
 	}
 

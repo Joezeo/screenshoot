@@ -13,13 +13,17 @@ void
 registe_sreenshoot_window(HINSTANCE);
 
 void
-show_screenshoot_window(HWND hwnd);
+show_screenshoot_window(HWND);
+
+void
+create_screenshoot_window(HWND *, HWND);
 
 LRESULT CALLBACK
 WndProc(HWND, UINT, WPARAM, LPARAM);
 
 LRESULT CALLBACK
 ScreenProc(HWND, UINT, WPARAM, LPARAM);
+
 
 #ifdef __cplusplus
 }
