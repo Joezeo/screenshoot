@@ -1,10 +1,11 @@
 #include "screen.h"
 
+
 void 
 screen_caption(HWND hWnd){
 	HDC hdcScreen;
 	HDC hdcWindow;
-	HDC hdcMemDC = NULL;
+	HDC	hdcMemDC;
 	HBITMAP hbmScreen = NULL;
 	BITMAP bmpScreen;
 
@@ -75,4 +76,5 @@ done:
 	ReleaseDC(hWnd, hdcWindow);
 
 }
+
 

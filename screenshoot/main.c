@@ -8,9 +8,6 @@
 #include "screen.h"
 
 
-#define		WNDWIDTH				555
-#define		WNDHEIGHT				100
-
 
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
@@ -229,7 +226,6 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC                             hdc;
 	PAINTSTRUCT                     ps;
-	RECT                            rect;
 
 	switch (message) {
 
