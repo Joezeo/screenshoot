@@ -8,7 +8,8 @@
 #include "screen.h"
 
 
-
+extern HDC			hdcMemDC;
+extern SIZE			screen_size;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
@@ -179,7 +180,13 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 		case IDABORT:
 
+			ShowWindow(hwnd, SW_HIDE);
+
+			SendMessage(ChildWnd, WM_CAPTION, 0, 0);
+
 			show_screenshoot_window(ChildWnd);
+
+			ShowWindow(hwnd, SW_SHOW);
 
 			break;
 
@@ -229,11 +236,17 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	switch (message) {
 
+	case WM_CAPTION:
+
+		screen_caption(hwnd);
+
+		return 0;
+
 	case WM_PAINT:
 
 		hdc = BeginPaint(hwnd, &ps);
 
-		screen_caption(hwnd);
+		screen_draw(hdc);
 
 		EndPaint(hwnd, &ps);
 
