@@ -10,6 +10,9 @@ extern "C" {
 void
 screen_caption(HWND);
 
+void
+screen_draw(HDC);
+
 #ifdef __cplusplus
 }
 #endif

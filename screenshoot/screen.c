@@ -1,11 +1,11 @@
 #include "screen.h"
-
+HDC					hdcMemDC;
+SIZE				screen_size;
 
 void 
 screen_caption(HWND hWnd){
 	HDC hdcScreen;
 	HDC hdcWindow;
-	HDC	hdcMemDC;
 	HBITMAP hbmScreen = NULL;
 	BITMAP bmpScreen;
 
@@ -13,6 +13,9 @@ screen_caption(HWND hWnd){
 	// area of the window. 
 	hdcScreen = GetDC(NULL); // GetDC(NULL)表示整个屏幕的dc
 	hdcWindow = GetDC(hWnd); // 创建当前窗口的hdc
+
+	screen_size.cx = GetSystemMetrics(SM_CXSCREEN);
+	screen_size.cy = GetSystemMetrics(SM_CYSCREEN);
 
 	// Create a compatible DC which is used in a BitBlt from the window DC
 	hdcMemDC = CreateCompatibleDC(hdcWindow);
@@ -23,29 +26,8 @@ screen_caption(HWND hWnd){
 		goto done;
 	}
 
-	// Get the client area for size calculation
-	RECT rcClient;
-	GetClientRect(hWnd, &rcClient);
-
-	//This is the best stretch mode
-	SetStretchBltMode(hdcWindow, HALFTONE); // 设置位图为拉伸模式
-
-	//The source DC is the entire screen and the destination DC is the current window (HWND)
-	if (!StretchBlt(hdcWindow,
-		0, 0,
-		rcClient.right, rcClient.bottom,
-		hdcScreen,
-		0, 0,
-		GetSystemMetrics(SM_CXSCREEN),
-		GetSystemMetrics(SM_CYSCREEN),
-		SRCCOPY))
-	{
-		MessageBox(hWnd, "StretchBlt has failed", "Failed", MB_OK);
-		goto done;
-	}
-
 	// Create a compatible bitmap from the Window DC
-	hbmScreen = CreateCompatibleBitmap(hdcWindow, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+	hbmScreen = CreateCompatibleBitmap(hdcWindow, screen_size.cx, screen_size.cy);
 
 	if (!hbmScreen)
 	{
@@ -59,7 +41,7 @@ screen_caption(HWND hWnd){
 	// Bit block transfer into our compatible memory DC.
 	if (!BitBlt(hdcMemDC,
 		0, 0,
-		rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
+		screen_size.cx, screen_size.cy,
 		hdcScreen,
 		0, 0,
 		SRCCOPY))
@@ -71,10 +53,19 @@ screen_caption(HWND hWnd){
 	//Clean up
 done:
 	DeleteObject(hbmScreen);
-	DeleteObject(hdcMemDC);
 	ReleaseDC(NULL, hdcScreen);
 	ReleaseDC(hWnd, hdcWindow);
 
+}
+
+void
+screen_draw(HDC hdc) {
+	BitBlt(hdc,
+		0, 0,
+		screen_size.cx, screen_size.cy,
+		hdcMemDC,
+		0, 0,
+		SRCCOPY);
 }
 
 
