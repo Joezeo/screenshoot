@@ -4,17 +4,15 @@
             Date:2017/12/6/18/31     
 **********************************************/
 #include "main.h"
-#include "resource.h"
-#include "../screen/screen.h"
-#include "../capturer/capturer.h"
 
 
 extern HDC			hdcMemDC;
 extern SIZE			screen_size;
+CAPTURE				cap;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
-int					nCmd;
+TCHAR				szSaveClassName[]	= "SaveWin";
 
 
 int WINAPI 
@@ -31,7 +29,6 @@ WinMain(
 	WNDCLASS                wndclass;
 
 	hInst = hInstance;
-	nCmd  = nShowCmd;
 
 	wndclass.style              = CS_HREDRAW | CS_VREDRAW;
 
@@ -62,23 +59,25 @@ WinMain(
 
 	registe_sreenshoot_window(hInstance);
 
+	registe_save_window(hInstance);
+
 
 	HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU));
 
 
 	hwnd = CreateWindow(
-		szWndClassName,                         //windows class name
-		"½ØÍ¼¹¤¾ß",                              //windows caption	
+		szWndClassName,                         // windows class name
+		"½ØÍ¼¹¤¾ß",                              // windows caption	
 		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX
-		^ WS_THICKFRAME,                        //windows style
-		CW_USEDEFAULT,                          //intial x position
-		CW_USEDEFAULT,                          //intial y position
-		WNDWIDTH,                               //intial x size
-		WNDHEIGHT,                              //intial y size
-		NULL,                                   //parent wnidow handle
+		^ WS_THICKFRAME,                        // windows style
+		CW_USEDEFAULT,                          // intial x position
+		CW_USEDEFAULT,                          // intial y position
+		WNDWIDTH,                               // intial x size
+		WNDHEIGHT,                              // intial y size
+		NULL,                                   // parent wnidow handle
 		hMenu,                                  // window menu handle
-		hInstance,                              //program instance handle
-		NULL);                                  //creation paramenter
+		hInstance,                              // program instance handle
+		NULL);                                  // creation paramenter
 
 
 	ShowWindow(hwnd, nShowCmd); // È«ÆÁ»¯£º SW_MAXIMIZE
@@ -100,7 +99,6 @@ WinMain(
 
 void
 registe_sreenshoot_window(HINSTANCE hInstance) {
-
 
 	WNDCLASS			wndclass;
 
@@ -136,7 +134,43 @@ registe_sreenshoot_window(HINSTANCE hInstance) {
 
 
 void
-create_screenshoot_window(HWND *hwnd, HWND phwnd) {
+registe_save_window(HINSTANCE hInstance) {
+
+	WNDCLASS			wndclass;
+
+	wndclass.style = CS_HREDRAW | CS_VREDRAW;
+
+	wndclass.lpfnWndProc = SaveProc;
+
+	wndclass.cbClsExtra = 0;
+
+	wndclass.cbWndExtra = sizeof(HANDLE);
+
+	wndclass.hInstance = hInstance;
+
+	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+
+	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+
+	wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+
+	wndclass.lpszMenuName = "SaveMenu";
+
+	wndclass.lpszClassName = szSaveClassName;
+
+
+	if (!RegisterClass(&wndclass)) {
+
+		MessageBox(NULL, "×¢²áÊ§°Ü", "´íÎó", MB_ICONERROR);
+
+		return;
+	}
+
+}
+
+
+void
+create_screenshot_window(HWND *hwnd, HWND phwnd) {
 
 	*hwnd = CreateWindow(szScreenClassName, TEXT("Child Demo"),
 		WS_POPUP,
@@ -147,9 +181,50 @@ create_screenshoot_window(HWND *hwnd, HWND phwnd) {
 
 
 void
-show_screenshoot_window(HWND hwnd) {
+create_save_window(HWND *hwnd, HWND phwnd) {
+
+	HMENU hmenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENUSAVE));
+
+	*hwnd = CreateWindow(szSaveClassName, TEXT("±£´æ½ØÍ¼"),
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, SAVEWIDTH, SAVEHEIGHT,
+		phwnd, hmenu, hInst, NULL);
+
+}
+
+
+void
+show_screenshot_window(HWND hwnd) {
 
 	ShowWindow(hwnd, SW_MAXIMIZE);
+
+	UpdateWindow(hwnd);
+
+}
+
+
+void
+show_save_window(HWND hwnd, CAPTURE cap) {
+
+	RECT				rect;
+	SIZE				client_size;
+
+	GetClientRect(hwnd, &rect);
+
+	client_size.cx = rect.right - rect.left;
+	client_size.cy = rect.bottom - rect.top;
+
+	if (cap.picSize.cx >= client_size.cx || cap.picSize.cy >= client_size.cy) {
+
+		ShowWindow(hwnd, SW_MAXIMIZE);
+
+	}
+
+	else {
+
+		ShowWindow(hwnd, SW_SHOW);
+
+	}
 
 	UpdateWindow(hwnd);
 
@@ -170,7 +245,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 	switch (message) {
 	case WM_CREATE: 
 
-		create_screenshoot_window(&ChildWnd, hwnd);
+		create_screenshot_window(&ChildWnd, hwnd);
 
 		return 0;
 	
@@ -185,7 +260,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 			SendMessage(ChildWnd, WM_CAPTION, 0, 0);
 
-			show_screenshoot_window(ChildWnd);
+			show_screenshot_window(ChildWnd);
 
 			break;
 
@@ -238,32 +313,40 @@ LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC                             hdc;
-	HWND							phwnd;
 	PAINTSTRUCT                     ps;
-	static CAPTURE					cap;
+	static HWND						phwnd;
+	static HWND						SaveWnd;
 
 	switch (message) {
 
 	case WM_CREATE:
 
+		phwnd = GetParent(hwnd);
+
 		init_capture(&cap);
+
+		create_save_window(&SaveWnd, hwnd);
 
 		return 0;
 
 
 	case WM_LBUTTONDOWN:
 
-		capture_image(&cap, hwnd);
+		(cap.pos).x = LOWORD(lparam);
+
+		(cap.pos).y = HIWORD(lparam);
+
+		capture_image(&cap, hwnd, SaveWnd);
 
 		if (cap.status) {
 
-			MessageBox(NULL, "½ØÍ¼³É¹¦", "¹§Ï²", MB_OK);
-
 			cap.status = FALSE;
 
-		}
-			
+			ShowWindow(hwnd, SW_HIDE);
 
+			show_save_window(SaveWnd, cap);
+
+		}
 		return 0;
 
 
@@ -272,6 +355,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		screen_caption(hwnd);
 
 		return 0;
+
 
 	case WM_PAINT:
 
@@ -292,8 +376,6 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 			ShowWindow(hwnd, SW_HIDE);
 
-			phwnd = GetParent(hwnd);
-
 			SendMessage(phwnd, WM_SHOW, 0, 0);
 
 			break;
@@ -309,6 +391,38 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		return 0;
 
+
+	}
+
+	return DefWindowProc(hwnd, message, wparam, lparam);
+
+}
+
+
+LRESULT CALLBACK
+SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
+
+	HDC							hdc;
+	PAINTSTRUCT					ps;
+
+	switch (message) {
+
+	case WM_PAINT:
+
+		hdc = BeginPaint(hwnd, &ps);
+
+		draw_image(&cap, hdc, hwnd);
+
+		EndPaint(hwnd, &ps);
+
+		return 0;
+
+
+	case WM_DESTROY:
+
+		PostQuitMessage(0);
+
+		return 0;
 
 	}
 

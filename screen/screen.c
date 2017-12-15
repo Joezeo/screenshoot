@@ -7,7 +7,6 @@ screen_caption(HWND hWnd){
 	HDC hdcScreen;
 	HDC hdcWindow;
 	HBITMAP hbmScreen = NULL;
-	BITMAP bmpScreen;
 
 	// Retrieve the handle to a display device context for the client 
 	// area of the window. 
