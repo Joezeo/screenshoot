@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-void
+HWND
 screen_caption(HWND hwnd);
 
 void

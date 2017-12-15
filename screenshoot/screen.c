@@ -3,20 +3,19 @@
 RECT					rcClient;
 HDC						memDc;
 
-void
+HWND
 screen_caption(HWND hwnd) {
 
 	static HBITMAP      hbmScreen;
 
-
 	HDC screenDc = GetDC(NULL);
 	HDC windowDc = GetDC(hwnd);
 
-	memDc = CreateCompatibleDC(screenDc);
+	memDc = CreateCompatibleDC(windowDc);
 
 	GetClientRect(hwnd, &rcClient);
 
-	hbmScreen = CreateCompatibleBitmap(screenDc, rcClient.left - rcClient.right, rcClient.bottom - rcClient.top);
+	hbmScreen = CreateCompatibleBitmap(windowDc, rcClient.left - rcClient.right, rcClient.bottom - rcClient.top);
 
 	SelectObject(memDc, hbmScreen);
 
