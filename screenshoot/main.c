@@ -6,6 +6,7 @@
 #include "main.h"
 #include "resource.h"
 #include "../screen/screen.h"
+#include "../capturer/capturer.h"
 
 
 extern HDC			hdcMemDC;
@@ -239,8 +240,32 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	HDC                             hdc;
 	HWND							phwnd;
 	PAINTSTRUCT                     ps;
+	static CAPTURE					cap;
 
 	switch (message) {
+
+	case WM_CREATE:
+
+		init_capture(&cap);
+
+		return 0;
+
+
+	case WM_LBUTTONDOWN:
+
+		capture_image(&cap, hwnd);
+
+		if (cap.status) {
+
+			MessageBox(NULL, "½ØÍ¼³É¹¦", "¹§Ï²", MB_OK);
+
+			cap.status = FALSE;
+
+		}
+			
+
+		return 0;
+
 
 	case WM_CAPTION:
 
