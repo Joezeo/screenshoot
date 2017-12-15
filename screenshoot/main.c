@@ -186,8 +186,6 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 			show_screenshoot_window(ChildWnd);
 
-			ShowWindow(hwnd, SW_SHOW);
-
 			break;
 
 		case ID_40001:
@@ -197,6 +195,13 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 			break;
 
 		}
+		return 0;
+
+
+	case WM_SHOW:
+
+		ShowWindow(hwnd, SW_SHOW);
+
 		return 0;
 	
 
@@ -232,6 +237,7 @@ LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC                             hdc;
+	HWND							phwnd;
 	PAINTSTRUCT                     ps;
 
 	switch (message) {
@@ -260,6 +266,10 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		case VK_ESCAPE:
 
 			ShowWindow(hwnd, SW_HIDE);
+
+			phwnd = GetParent(hwnd);
+
+			SendMessage(phwnd, WM_SHOW, 0, 0);
 
 			break;
 

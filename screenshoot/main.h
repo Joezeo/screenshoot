@@ -13,6 +13,7 @@ extern "C"{
 #define		WNDHEIGHT				100
 
 #define		WM_CAPTION				(WM_USER + 1)
+#define		WM_SHOW					(WM_USER + 2)
 
 void
 registe_sreenshoot_window(HINSTANCE);
