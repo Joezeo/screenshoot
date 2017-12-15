@@ -111,12 +111,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\screen\screen.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="screen.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\screen\screen.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="screen.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

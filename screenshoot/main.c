@@ -5,7 +5,7 @@
 **********************************************/
 #include "main.h"
 #include "resource.h"
-#include "screen.h"
+#include "../screen/screen.h"
 
 
 extern HDC			hdcMemDC;
