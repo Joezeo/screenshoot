@@ -9,7 +9,7 @@
 ### `profile`
 Tool to srceenshoot    
 First of all, this's a `wheel `.  
-The software is modeled on a screenshot of the Microsoft system.
+The software is modeled on a screenshot of the Microsoft system.  
 This program is written in `C` and uses the `win32 API`.  
   
 ### `Current state ` 
