@@ -48,5 +48,8 @@
     <Image Include="..\res\big.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="..\res\folder.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

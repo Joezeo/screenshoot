@@ -148,7 +148,7 @@ registe_save_window(HINSTANCE hInstance) {
 
 	wndclass.hInstance = hInstance;
 
-	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SAVEICON));
 
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 
@@ -181,14 +181,14 @@ create_screenshot_window(HWND *hwnd, HWND phwnd) {
 
 
 void
-create_save_window(HWND *hwnd, HWND phwnd) {
+create_save_window(HWND *hwnd) {
 
 	HMENU hmenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENUSAVE));
 
 	*hwnd = CreateWindow(szSaveClassName, TEXT("±£´æ½ØÍ¼"),
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, SAVEWIDTH, SAVEHEIGHT,
-		phwnd, hmenu, hInst, NULL);
+		NULL, hmenu, hInst, NULL);
 
 }
 
@@ -214,15 +214,13 @@ show_save_window(HWND hwnd, CAPTURE cap) {
 	client_size.cx = rect.right - rect.left;
 	client_size.cy = rect.bottom - rect.top;
 
-	if (cap.picSize.cx >= client_size.cx || cap.picSize.cy >= client_size.cy) {
+	if (((cap.picSize).cx >= client_size.cx - 200) || ((cap.picSize).cy >= client_size.cy - 200)) {
 
 		ShowWindow(hwnd, SW_MAXIMIZE);
 
-	}
+	} else {
 
-	else {
-
-		ShowWindow(hwnd, SW_SHOW);
+		ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	}
 
@@ -276,7 +274,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 	case WM_SHOW:
 
-		ShowWindow(hwnd, SW_SHOW);
+		ShowWindow(hwnd, SW_SHOWNORMAL);
 
 		return 0;
 	
@@ -313,6 +311,7 @@ LRESULT CALLBACK
 ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC                             hdc;
+	HWND							fhwnd;
 	PAINTSTRUCT                     ps;
 	static HWND						phwnd;
 	static HWND						SaveWnd;
@@ -325,7 +324,7 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		init_capture(&cap);
 
-		create_save_window(&SaveWnd, hwnd);
+		create_save_window(&SaveWnd);
 
 		return 0;
 
@@ -374,6 +373,8 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		case VK_ESCAPE:
 
+			init_capture(&cap);
+
 			ShowWindow(hwnd, SW_HIDE);
 
 			SendMessage(phwnd, WM_SHOW, 0, 0);
@@ -381,6 +382,17 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 			break;
 
 		}
+
+		return 0;
+
+
+	case WM_RECAP:
+
+		init_capture(&cap);
+
+		fhwnd = FindWindow(szWndClassName, NULL);
+
+		ShowWindow(fhwnd, SW_SHOWNORMAL);
 
 		return 0;
 
@@ -403,6 +415,7 @@ LRESULT CALLBACK
 SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC							hdc;
+	HWND						phwnd;
 	PAINTSTRUCT					ps;
 
 	switch (message) {
@@ -414,6 +427,33 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		draw_image(&cap, hdc, hwnd);
 
 		EndPaint(hwnd, &ps);
+
+		return 0;
+
+
+	case WM_MENUSELECT:
+
+		switch (LOWORD(wparam)) {
+
+		case ID_SAVE:
+			break;
+
+
+		case ID_RECAP:
+
+			phwnd = FindWindow(szScreenClassName, NULL);
+
+			SendMessage(phwnd, WM_RECAP, 0, 0);
+
+			ShowWindow(hwnd, SW_HIDE);
+
+			break;
+
+
+		case ID_DRAW:
+			break;
+
+		}
 
 		return 0;
 

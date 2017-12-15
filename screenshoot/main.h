@@ -19,6 +19,7 @@ extern "C"{
 
 #define		WM_CAPTION				(WM_USER + 1)	// CAPTION 事件，当用户点击“新建”时触发
 #define		WM_SHOW					(WM_USER + 2)	// SHOW    事件，当用户在截图界面点ESC时触发
+#define		WM_RECAP				(WM_USER + 3)	// RECAP   事件，保存界面点击“重新截图”时，在 ScreenProc 中触发
 
 void
 registe_sreenshoot_window(HINSTANCE);
@@ -28,6 +29,9 @@ registe_save_window(HINSTANCE);
 
 void
 create_screenshot_window(HWND *, HWND);
+
+void
+create_save_window(HWND *);
 
 void
 show_screenshot_window(HWND);

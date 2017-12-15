@@ -8,12 +8,14 @@ extern "C" {
 #endif
 
 typedef struct {
+
 	UINT	bCnt;	// 记数鼠标点击次数
 	BOOL	status;	// 是否截图成功
 	RECT	rect;	// 截取图像的矩形区域
 	POINT	pos;	// 点击时鼠标坐标，以及截图后图片在客户区的坐标
 	HDC		memDc;	// 存储截图信息的memDc
 	SIZE	picSize;// 截取图片的大小
+
 }CAPTURE;
 
 void
