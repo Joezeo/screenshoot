@@ -77,6 +77,11 @@ change_menu_checked(BRUSH *brush, PENCOLOR color, UINT menu_id, HMENU hmenu) {
 }
 
 void
-brush_picture() {
+brush_picture(POINT mPos) {
+
+static BOOL
+check_mouse_pos(POINT, CAPTURE) {
+
+}
 
 }

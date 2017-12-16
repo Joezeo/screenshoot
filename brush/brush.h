@@ -27,7 +27,10 @@ void
 change_menu_checked(BRUSH *, PENCOLOR, UINT, HMENU); // 接口函数，改变菜单栏的 check 属性的状态
 
 void
-brush_picture();                                     // 接口函数，判断鼠标位置，画笔画图
+brush_picture(POINT, CAPTURE);                       // 接口函数，判断鼠标位置，画笔画图
+
+static BOOL
+check_mouse_pos(POINT, CAPTURE);					 // 静态函数，判断鼠标位置是否在图片上
 
 #ifdef __cplusplus
 }

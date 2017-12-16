@@ -4,6 +4,9 @@ SIZE				screen_size;
 
 void 
 screen_caption(HWND hWnd){
+
+	assert(hWnd != NULL);
+
 	HDC hdcScreen;
 	HDC hdcWindow;
 	HBITMAP hbmScreen = NULL;
@@ -59,6 +62,9 @@ done:
 
 void
 screen_draw(HDC hdc) {
+
+	assert(hdc != NULL);
+
 	BitBlt(hdc,
 		0, 0,
 		screen_size.cx, screen_size.cy,
