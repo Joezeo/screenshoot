@@ -21,6 +21,7 @@ Completing the basic screenshot function.
 `Todo list:`  
 * Save picture function  
 * When the image is intercepted, the dotted line box is displayed function.  
+* During the screenshot, the Spectroscope function   
   
   
 ### `File structure`  
