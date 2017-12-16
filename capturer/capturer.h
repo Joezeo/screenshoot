@@ -8,6 +8,7 @@
 extern "C" {
 #endif
 
+
 typedef struct {
 
 	UINT	bCnt;	// 记数鼠标点击次数
@@ -18,6 +19,7 @@ typedef struct {
 	SIZE	picSize;// 截取图片的大小
 
 }CAPTURE;
+
 
 void
 init_capture(CAPTURE *);					// 接口函数，初始化 CAPTURE 实例
@@ -33,6 +35,7 @@ select_image(CAPTURE *);					// 静态函数，选择图片
 
 static void
 store_image(CAPTURE *, HWND, HWND);			// 静态函数，保存图片于 CAPTURE 实例的memDc中
+
 
 #ifdef __cplusplus
 }

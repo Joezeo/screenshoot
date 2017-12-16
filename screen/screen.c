@@ -2,6 +2,8 @@
 HDC					hdcMemDC;
 SIZE				screen_size;
 
+
+// 屏幕截取，将截取的图像存入 全局变量hdcMemDc 中
 void 
 screen_caption(HWND hWnd){
 
@@ -60,6 +62,8 @@ done:
 
 }
 
+
+// 画出 全局变量hdcMemDc 中存放的屏幕图像
 void
 screen_draw(HDC hdc) {
 

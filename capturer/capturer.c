@@ -1,5 +1,10 @@
 #include "capturer.h"
 
+/*
+			接口函数
+*/
+
+// 接口函数，初始化 CAPTURE 实例
 void
 init_capture(CAPTURE *cap) {
 
@@ -24,6 +29,8 @@ init_capture(CAPTURE *cap) {
 
 }
 
+
+// 接口函数，选择图片，保存图片于 CAPTURE 实例的memDc中
 void
 capture_image(CAPTURE *cap, HWND sHwnd, HWND wHwnd) {
 
@@ -41,6 +48,8 @@ capture_image(CAPTURE *cap, HWND sHwnd, HWND wHwnd) {
 		
 }
 
+
+// 接口函数，画出 capture 实例 memDc 中存放的图像
 void
 draw_image(CAPTURE *cap, HDC hdc, HWND hwnd) {
 
@@ -68,6 +77,13 @@ draw_image(CAPTURE *cap, HDC hdc, HWND hwnd) {
 
 }
 
+
+
+/*
+			静态函数
+*/
+
+// 静态函数，选择图片
 static void
 select_image(CAPTURE *cap) {
 
@@ -146,6 +162,8 @@ select_image(CAPTURE *cap) {
 
 }
 
+
+// 静态函数，保存图片于 CAPTURE 实例的memDc中
 static void
 store_image(CAPTURE *cap, HWND sHwnd, HWND wHwnd) {
 

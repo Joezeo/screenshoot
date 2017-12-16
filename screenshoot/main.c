@@ -256,6 +256,7 @@ WndProc(HWND hwnd, UINT message, WPARAM wparam,LPARAM lparam) {
 
 			ShowWindow(hwnd, SW_HIDE);
 
+			// 当点击了"新建"按钮，向ScreenShot窗口传递WM_CAPTION消息，截取桌面图像，保存于hdcMemDc中
 			SendMessage(ChildWnd, WM_CAPTION, 0, 0);
 
 			show_screenshot_window(ChildWnd);
@@ -329,6 +330,13 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		return 0;
 
 
+	case WM_CAPTION:
+
+		screen_caption(hwnd);
+
+		return 0;
+
+
 	case WM_LBUTTONDOWN:
 
 		(cap.pos).x = LOWORD(lparam);
@@ -343,16 +351,10 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 			ShowWindow(hwnd, SW_HIDE);
 
+			// 当capture_image截图完毕，显示SaveWin窗口
 			show_save_window(SaveWnd, cap);
 
 		}
-		return 0;
-
-
-	case WM_CAPTION:
-
-		screen_caption(hwnd);
-
 		return 0;
 
 
@@ -416,6 +418,7 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC							hdc;
 	HWND						phwnd;
+	POINT						mPos;
 	PAINTSTRUCT					ps;
 	static HMENU				hMenu;
 	static HMENU				subMenu;
@@ -443,6 +446,37 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		EndPaint(hwnd, &ps);
 
 		return 0;
+
+
+	case WM_LBUTTONDOWN:
+
+		mPos.x = LOWORD(lparam);
+		mPos.y = HIWORD(lparam);
+
+		brush_picture(mPos, &cap, &brush, hwnd);
+
+		return 0;
+
+
+	case WM_LBUTTONUP:
+
+		brush.pre_point.x = 0;
+		brush.pre_point.y = 0;
+
+		return 0;
+
+
+	case WM_MOUSEMOVE:
+
+		//如果鼠标左键被持续按下
+		if (MK_LBUTTON & wparam) {
+
+			mPos.x = LOWORD(lparam);
+			mPos.y = HIWORD(lparam);
+
+			brush_picture(mPos, &cap, &brush, hwnd);
+
+		}
 
 
 	case WM_MENUSELECT:
