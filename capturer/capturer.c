@@ -76,9 +76,59 @@ select_image(CAPTURE *cap) {
 
 	case 2:
 
-		(cap->rect).right = (cap->pos).x;
+		if (((cap->pos).x >= (cap->rect).left) &&
+			((cap->pos).y >= (cap->rect).top)) {
 
-		(cap->rect).bottom = (cap->pos).y;
+			(cap->rect).right = (cap->pos).x;
+
+			(cap->rect).bottom = (cap->pos).y;
+
+		}
+		else if (((cap->pos).x < (cap->rect).left) &&
+			((cap->pos).y >= (cap->rect).top)) {
+
+			int tmp = (cap->rect).left - (cap->pos).x;
+
+			(cap->rect).left -= tmp;
+
+			(cap->rect).right = (cap->pos).x + tmp;
+
+			(cap->rect).bottom = (cap->pos).y;
+
+		}
+		else if (((cap->pos).x < (cap->rect).left) &&
+			((cap->pos).y < (cap->rect).top)) {
+
+			int a, b;
+
+			(cap->rect).right = (cap->pos).x;
+
+			(cap->rect).bottom = (cap->pos).y;
+
+			a = (cap->rect).right;
+			b = (cap->rect).bottom;
+
+			(cap->rect).right = (cap->rect).left;
+			(cap->rect).bottom = (cap->rect).top;
+
+			(cap->rect).left = a;
+			(cap->rect).top = b;
+
+		}
+		else if (((cap->pos).x >= (cap->rect).left) &&
+			((cap->pos).y < (cap->rect).top)) {
+
+			int tmp = (cap->rect).top - (cap->pos).y;
+
+			(cap->rect).top -= tmp;
+
+			(cap->rect).bottom = (cap->pos).y + tmp;
+
+			(cap->rect).right = (cap->pos).x;
+
+		}
+
+		
 
 		break;
 

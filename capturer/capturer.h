@@ -25,7 +25,7 @@ void
 capture_image(CAPTURE *, HWND, HWND);		// 接口函数，选择图片，保存图片于 CAPTURE 实例的memDc中
 
 void
-draw_image(CAPTURE *, HDC, HWND);			// 接口函数，画出 capture 实例 memdc中存放的图像
+draw_image(CAPTURE *, HDC, HWND);			// 接口函数，画出 capture 实例 memDc 中存放的图像
 
 static void
 select_image(CAPTURE *);					// 静态函数，选择图片
