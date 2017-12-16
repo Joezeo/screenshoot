@@ -12,13 +12,16 @@
 #define ID_TMP                          40007
 #define ID_TMP2                         40008
 #define ID_DRAW                         40009
+#define ID_REDPEN                       40013
+#define ID_BLUEPEN                      40014
+#define ID_GREENPEN                     40015
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        112
-#define _APS_NEXT_COMMAND_VALUE         40010
+#define _APS_NEXT_COMMAND_VALUE         40016
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           102
 #endif

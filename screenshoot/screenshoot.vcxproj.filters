@@ -24,6 +24,9 @@
     <ClCompile Include="..\capturer\capturer.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\brush\brush.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -36,6 +39,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\capturer\capturer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\brush\brush.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

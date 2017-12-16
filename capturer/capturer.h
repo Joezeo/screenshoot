@@ -2,6 +2,7 @@
 #define __CAPTURER_H__
 
 #include <windows.h>
+#include <assert.h>
 
 #ifdef __cplusplus
 extern "C" {

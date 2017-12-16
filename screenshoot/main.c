@@ -417,8 +417,22 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	HDC							hdc;
 	HWND						phwnd;
 	PAINTSTRUCT					ps;
+	static HMENU				hMenu;
+	static HMENU				subMenu;
+	static BRUSH				brush;
 
 	switch (message) {
+
+	case WM_CREATE:
+
+		hMenu = GetMenu(hwnd);
+
+		subMenu = GetSubMenu(hMenu, 4);
+
+		init_brush(&brush);
+
+		return 0;
+		
 
 	case WM_PAINT:
 
@@ -441,6 +455,8 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		case ID_RECAP:
 
+			change_menu_checked(&brush, nocolor, 0, subMenu);
+
 			phwnd = FindWindow(szScreenClassName, NULL);
 
 			SendMessage(phwnd, WM_RECAP, 0, 0);
@@ -449,15 +465,41 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 			break;
 
-
-		case ID_DRAW:
-			break;
-
 		}
 
 		return 0;
 
 
+	case WM_COMMAND:
+
+		if (lparam == 0) {
+
+			switch (LOWORD(wparam)) {
+
+			case ID_REDPEN:
+
+				change_menu_checked(&brush, red, ID_REDPEN, subMenu);
+
+				break;
+
+			case ID_BLUEPEN:
+
+				change_menu_checked(&brush, blue, ID_BLUEPEN, subMenu);
+
+				break;
+
+			case ID_GREENPEN:
+
+				change_menu_checked(&brush, green, ID_GREENPEN, subMenu);
+
+				break;
+
+			}
+
+		}
+
+		return 0;
+		
 	case WM_DESTROY:
 
 		PostQuitMessage(0);

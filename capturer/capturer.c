@@ -3,6 +3,8 @@
 void
 init_capture(CAPTURE *cap) {
 
+	assert(cap != NULL);
+
 	cap->bCnt = 0;
 
 	cap->status = FALSE;
@@ -25,6 +27,10 @@ init_capture(CAPTURE *cap) {
 void
 capture_image(CAPTURE *cap, HWND sHwnd, HWND wHwnd) {
 
+	assert(cap != NULL);
+	assert(sHwnd != NULL);
+	assert(wHwnd != NULL);
+
 	select_image(cap);
 
 	if (cap->bCnt == 2) {
@@ -37,6 +43,10 @@ capture_image(CAPTURE *cap, HWND sHwnd, HWND wHwnd) {
 
 void
 draw_image(CAPTURE *cap, HDC hdc, HWND hwnd) {
+
+	assert(cap != NULL);
+	assert(hdc != NULL);
+	assert(hwnd != NULL);
 
 	SIZE				client_size;
 	RECT				clRect;

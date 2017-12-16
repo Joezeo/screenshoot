@@ -1,10 +1,10 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-#include <windows.h>
 #include "resource.h"
 #include "../screen/screen.h"
 #include "../capturer/capturer.h"
+#include "../brush/brush.h"
 #pragma comment(lib,"msimg32.lib")
 #pragma comment(lib,"winmm.lib")
 
