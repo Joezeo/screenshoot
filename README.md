@@ -23,7 +23,9 @@ Completing the basic screenshot function.
 * When the image is intercepted, the dotted line box is displayed function.  
   
   
-
+### `File structure`  
+![image](https://github.com/Joezeo/screenshoot/blob/master/res/FileStructure.PNG)  
+  
   
 ### `Flow chart`
 ![image](https://github.com/Joezeo/screenshoot/blob/master/res/ScreenShot%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B.svg)
