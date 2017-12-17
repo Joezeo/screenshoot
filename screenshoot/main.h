@@ -5,6 +5,7 @@
 #include "../screen/screen.h"
 #include "../capturer/capturer.h"
 #include "../brush/brush.h"
+#include "../selectbox/box.h"
 #pragma comment(lib,"msimg32.lib")
 #pragma comment(lib,"winmm.lib")
 

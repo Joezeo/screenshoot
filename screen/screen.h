@@ -8,11 +8,19 @@
 extern "C" {
 #endif
 
-void
-screen_caption(HWND);                // 屏幕截取，将截取的图像存入 全局变量hdcMemDc 中
+typedef struct {
+	HDC  hdcMemDC;
+	SIZE screen_size;
+}SCREEN;
 
 void
-screen_draw(HDC);                    // 画出 全局变量hdcMemDc 中存放的屏幕图像
+init_screen(SCREEN *, HWND);          // 初始化SCREEN实例
+
+void
+screen_caption(HWND, SCREEN *);      // 屏幕截取，将截取的图像存入 全局变量hdcMemDc 中
+
+void
+screen_draw(HDC, SCREEN);            // 画出 全局变量hdcMemDc 中存放的屏幕图像
 
 #ifdef __cplusplus
 }

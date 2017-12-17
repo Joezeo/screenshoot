@@ -114,12 +114,14 @@
     <ClCompile Include="..\brush\brush.c" />
     <ClCompile Include="..\capturer\capturer.c" />
     <ClCompile Include="..\screen\screen.c" />
+    <ClCompile Include="..\selectbox\box.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\brush\brush.h" />
     <ClInclude Include="..\capturer\capturer.h" />
     <ClInclude Include="..\screen\screen.h" />
+    <ClInclude Include="..\selectbox\box.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

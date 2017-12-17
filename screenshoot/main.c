@@ -6,8 +6,6 @@
 #include "main.h"
 
 
-extern HDC			hdcMemDC;
-extern SIZE			screen_size;
 CAPTURE				cap;
 HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
@@ -313,9 +311,12 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC                             hdc;
 	HWND							fhwnd;
+	POINT							mPos;
 	PAINTSTRUCT                     ps;
 	static HWND						phwnd;
 	static HWND						SaveWnd;
+	static SELECTBOX				selectbox;
+	static SCREEN					screen;
 
 	switch (message) {
 
@@ -323,7 +324,11 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		phwnd = GetParent(hwnd);
 
+		init_screen(&screen, hwnd);
+
 		init_capture(&cap);
+
+		init_selectbox(&selectbox);
 
 		create_save_window(&SaveWnd);
 
@@ -332,18 +337,26 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	case WM_CAPTION:
 
-		screen_caption(hwnd);
+		screen_caption(hwnd, &screen);
 
 		return 0;
 
 
 	case WM_LBUTTONDOWN:
 
+		mPos.x = LOWORD(lparam);
+
+		mPos.y = HIWORD(lparam);
+
 		(cap.pos).x = LOWORD(lparam);
 
 		(cap.pos).y = HIWORD(lparam);
 
 		capture_image(&cap, hwnd, SaveWnd);
+
+		(selectbox.cnt)++;
+
+		draw_selectbox(&selectbox, hwnd, mPos, screen);
 
 		if (cap.status) {
 
@@ -358,11 +371,22 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		return 0;
 
 
+	case WM_MOUSEMOVE:
+
+		mPos.x = LOWORD(lparam);
+
+		mPos.y = HIWORD(lparam);
+
+		draw_selectbox(&selectbox, hwnd, mPos, screen);
+
+		return 0;
+
+
 	case WM_PAINT:
 
 		hdc = BeginPaint(hwnd, &ps);
 
-		screen_draw(hdc);
+		screen_draw(hdc, screen);
 
 		EndPaint(hwnd, &ps);
 
@@ -375,11 +399,37 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 		case VK_ESCAPE:
 
-			init_capture(&cap);
+			// 如果用户在截图界面还没开始截图，点击ESC退出截图
+			if (selectbox.set_sta == FALSE) {
 
-			ShowWindow(hwnd, SW_HIDE);
+				init_capture(&cap);
 
-			SendMessage(phwnd, WM_SHOW, 0, 0);
+				init_selectbox(&selectbox);
+
+				ShowWindow(hwnd, SW_HIDE);
+
+				SendMessage(phwnd, WM_SHOW, 0, 0);
+
+			} 
+			// 如果用户在截图界面已经开始开始截图，点击ESC重新选择
+			else {
+
+				init_capture(&cap);
+
+				init_selectbox(&selectbox);
+
+				hdc = GetDC(hwnd);
+
+				BitBlt(hdc, 0, 0,
+					screen.screen_size.cx, screen.screen_size.cy,
+					screen.hdcMemDC,
+					0, 0, SRCCOPY);
+
+				ReleaseDC(hwnd, hdc);
+
+			}
+
+			
 
 			break;
 
@@ -389,6 +439,8 @@ ScreenProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 
 	case WM_RECAP:
+
+		init_selectbox(&selectbox);
 
 		init_capture(&cap);
 

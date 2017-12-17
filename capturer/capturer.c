@@ -154,8 +154,6 @@ select_image(CAPTURE *cap) {
 
 		}
 
-		
-
 		break;
 
 	}

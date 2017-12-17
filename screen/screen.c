@@ -1,13 +1,35 @@
 #include "screen.h"
-HDC					hdcMemDC;
-SIZE				screen_size;
+
+// 初始化SCREEN实例
+void
+init_screen(SCREEN *screen, HWND hwnd) {
+
+	assert(screen != NULL);
+	assert(hwnd != NULL);
+
+	HDC hdcWindow = GetDC(hwnd);
+
+	// Create a compatible DC which is used in a BitBlt from the window DC
+	screen->hdcMemDC = CreateCompatibleDC(hdcWindow);
+
+	if (!(screen->hdcMemDC))
+	{
+		MessageBox(hwnd, "CreateCompatibleDC has failed", "Failed", MB_OK);
+	}
+
+	(screen->screen_size).cx = GetSystemMetrics(SM_CXSCREEN);
+
+	(screen->screen_size).cy = GetSystemMetrics(SM_CYSCREEN);
+
+}
 
 
 // 屏幕截取，将截取的图像存入 全局变量hdcMemDc 中
 void 
-screen_caption(HWND hWnd){
+screen_caption(HWND hWnd, SCREEN *screen){
 
 	assert(hWnd != NULL);
+	assert(screen != NULL);
 
 	HDC hdcScreen;
 	HDC hdcWindow;
@@ -18,20 +40,8 @@ screen_caption(HWND hWnd){
 	hdcScreen = GetDC(NULL); // GetDC(NULL)表示整个屏幕的dc
 	hdcWindow = GetDC(hWnd); // 创建当前窗口的hdc
 
-	screen_size.cx = GetSystemMetrics(SM_CXSCREEN);
-	screen_size.cy = GetSystemMetrics(SM_CYSCREEN);
-
-	// Create a compatible DC which is used in a BitBlt from the window DC
-	hdcMemDC = CreateCompatibleDC(hdcWindow);
-
-	if (!hdcMemDC)
-	{
-		MessageBox(hWnd, "CreateCompatibleDC has failed", "Failed", MB_OK);
-		goto done;
-	}
-
 	// Create a compatible bitmap from the Window DC
-	hbmScreen = CreateCompatibleBitmap(hdcWindow, screen_size.cx, screen_size.cy);
+	hbmScreen = CreateCompatibleBitmap(hdcWindow, (screen->screen_size).cx, (screen->screen_size).cy);
 
 	if (!hbmScreen)
 	{
@@ -40,12 +50,12 @@ screen_caption(HWND hWnd){
 	}
 
 	// Select the compatible bitmap into the compatible memory DC.
-	SelectObject(hdcMemDC, hbmScreen);
+	SelectObject(screen->hdcMemDC, hbmScreen);
 
 	// Bit block transfer into our compatible memory DC.
-	if (!BitBlt(hdcMemDC,
+	if (!BitBlt(screen->hdcMemDC,
 		0, 0,
-		screen_size.cx, screen_size.cy,
+		(screen->screen_size).cx, (screen->screen_size).cy,
 		hdcScreen,
 		0, 0,
 		SRCCOPY))
@@ -65,14 +75,14 @@ done:
 
 // 画出 全局变量hdcMemDc 中存放的屏幕图像
 void
-screen_draw(HDC hdc) {
+screen_draw(HDC hdc, SCREEN screen) {
 
 	assert(hdc != NULL);
 
 	BitBlt(hdc,
 		0, 0,
-		screen_size.cx, screen_size.cy,
-		hdcMemDC,
+		(screen.screen_size).cx, (screen.screen_size).cy,
+		screen.hdcMemDC,
 		0, 0,
 		SRCCOPY);
 }

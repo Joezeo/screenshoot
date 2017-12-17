@@ -91,6 +91,9 @@ change_menu_checked(BRUSH *brush, PENCOLOR color, UINT menu_id, HMENU hmenu) {
 void
 brush_picture(POINT mPos, CAPTURE *cap, BRUSH *brush, HWND hwnd) {
 
+	assert(cap != NULL);
+	assert(brush != NULL);
+
 	if (!check_mouse_pos(mPos, *cap)) {
 
 		return;
