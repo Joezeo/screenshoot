@@ -6,6 +6,7 @@
 #include "../capturer/capturer.h"
 #include "../brush/brush.h"
 #include "../selectbox/box.h"
+#include "../savefile/save.h"
 #pragma comment(lib,"msimg32.lib")
 #pragma comment(lib,"winmm.lib")
 

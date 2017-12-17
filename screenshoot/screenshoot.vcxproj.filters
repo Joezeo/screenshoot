@@ -30,6 +30,9 @@
     <ClCompile Include="..\selectbox\box.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\savefile\save.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -48,6 +51,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\selectbox\box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\savefile\save.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

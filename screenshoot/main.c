@@ -469,12 +469,14 @@ LRESULT CALLBACK
 SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 	HDC							hdc;
-	HWND						phwnd;
+	HWND						phwnd;	
 	POINT						mPos;
 	PAINTSTRUCT					ps;
 	static HMENU				hMenu;
 	static HMENU				subMenu;
 	static BRUSH				brush;
+	static OPENFILENAME			sFile;
+	static TCHAR				strFilename[MAX_PATH];
 
 	switch (message) {
 
@@ -531,36 +533,43 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 		}
 
 
-	case WM_MENUSELECT:
-
-		switch (LOWORD(wparam)) {
-
-		case ID_SAVE:
-			break;
-
-
-		case ID_RECAP:
-
-			change_menu_checked(&brush, nocolor, 0, subMenu);
-
-			phwnd = FindWindow(szScreenClassName, NULL);
-
-			SendMessage(phwnd, WM_RECAP, 0, 0);
-
-			ShowWindow(hwnd, SW_HIDE);
-
-			break;
-
-		}
-
-		return 0;
-
-
 	case WM_COMMAND:
 
 		if (lparam == 0) {
 
 			switch (LOWORD(wparam)) {
+
+			case ID_SAVE:
+
+				init_save_file(&sFile, hwnd, hInst);
+
+				/*如果用户指定的文件名，并单击确定按钮，返回值不为零。
+				指向的 OPENFILENAME 结构的 lpstrFile 成员在缓冲区中包含完整的路径和文件名称。*/
+				if (GetSaveFileName(&sFile)) { 
+
+					MessageBox(NULL, sFile.lpstrFile, TEXT("保存到"), 0);
+
+				}
+				else {
+
+					MessageBox(NULL, TEXT("请输入文件名"), NULL, MB_OK);
+
+				}
+
+				break;
+
+
+			case ID_RECAP:
+
+				change_menu_checked(&brush, nocolor, 0, subMenu);
+
+				phwnd = FindWindow(szScreenClassName, NULL);
+
+				SendMessage(phwnd, WM_RECAP, 0, 0);
+
+				ShowWindow(hwnd, SW_HIDE);
+
+				break;
 
 			case ID_REDPEN:
 
