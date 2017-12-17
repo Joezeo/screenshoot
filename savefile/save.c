@@ -1,9 +1,9 @@
 #include "save.h"
 
+TCHAR				strFilename[MAX_PATH];
+
 void
 init_save_file(OPENFILENAME *sfile, HWND hwnd, HINSTANCE hInst) {
-
-	TCHAR				strFilenames[MAX_PATH];
 
 	assert(sfile != NULL);
 
@@ -17,9 +17,9 @@ init_save_file(OPENFILENAME *sfile, HWND hwnd, HINSTANCE hInst) {
 
 	sfile->nFilterIndex = 1;
 
-	sfile->lpstrFile = strFilenames; 
+	sfile->lpstrFile = strFilename; 
 
-	sfile->nMaxFile = sizeof(strFilenames);
+	sfile->nMaxFile = sizeof(strFilename);
 
 	sfile->lpstrTitle = TEXT("Αν΄ζΞͺ");
 

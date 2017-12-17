@@ -11,6 +11,7 @@ HINSTANCE			hInst;
 TCHAR				szWndClassName[]	= "FrameWin";
 TCHAR				szScreenClassName[]	= "ScreenWin";
 TCHAR				szSaveClassName[]	= "SaveWin";
+extern TCHAR		strFilename[MAX_PATH];
 
 
 int WINAPI 
@@ -476,7 +477,6 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 	static HMENU				subMenu;
 	static BRUSH				brush;
 	static OPENFILENAME			sFile;
-	static TCHAR				strFilename[MAX_PATH];
 
 	switch (message) {
 
@@ -548,11 +548,6 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 				if (GetSaveFileName(&sFile)) { 
 
 					MessageBox(NULL, sFile.lpstrFile, TEXT("保存到"), 0);
-
-				}
-				else {
-
-					MessageBox(NULL, TEXT("请输入文件名"), NULL, MB_OK);
 
 				}
 
