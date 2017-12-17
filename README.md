@@ -16,11 +16,12 @@ This program is written in `C` and uses the `win32 API`.
 [![Travis](https://img.shields.io/badge/progress-70%20%25-lightgrey.svg?style=flat-square)]()  
 `In preparation, it should be finished soon.I guess...  `  
 Completing the basic screenshot function.  
+* Brush function   
   
 `Todo list:`  
-* Save picture function
-* Brush function  
+* Save picture function  
 * When the image is intercepted, the dotted line box is displayed function.  
+* During the screenshot, the Spectroscope function   
   
   
 ### `File structure`  
