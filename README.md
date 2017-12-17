@@ -17,10 +17,10 @@ This program is written in `C` and uses the `win32 API`.
 `In preparation, it should be finished soon.I guess...  `  
 Completing the basic screenshot function.  
 * Brush function   
+* When the image is intercepted, the select box is displayed function.  
   
 `Todo list:`  
 * Save picture function  
-* When the image is intercepted, the dotted line box is displayed function.  
 * During the screenshot, the Spectroscope function   
   
   
