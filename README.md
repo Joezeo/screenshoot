@@ -1,8 +1,8 @@
-# screenshoot
+# screenshoot  
 
-[![Travis](https://img.shields.io/badge/Language-C-brightgreen.svg)]()
-[![Travis](https://img.shields.io/badge/Version-0.0.0-orange.svg)]()
-[![Travis](https://img.shields.io/badge/Status-Not%20completed-red.svg)]()
+[![Travis](https://img.shields.io/badge/Language-C-blue.svg)]()
+[![Travis](https://img.shields.io/badge/Version-0.1.0-orange.svg)]()
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
   
   ---
   
@@ -13,14 +13,16 @@ The software is modeled on a screenshot of the Microsoft system.
 This program is written in `C` and uses the `win32 API`.  
   
 ### `Current state ` 
-[![Travis](https://img.shields.io/badge/progress-70%20%25-lightgrey.svg?style=flat-square)]()  
-`In preparation, it should be finished soon.I guess...  `  
-Completing the basic screenshot function.  
+[![Travis](https://img.shields.io/badge/Progress-90%20%25-red.svg?style=flat-square)]()
+`The version 0.1.0 is already compelted.  `    
+The main current version features:  
+* Capture image function
 * Brush function   
 * When the image is intercepted, the select box is displayed function.  
+* Save bmp file function  
   
 `Todo list:`  
-* Save picture function  
+
 * During the screenshot, the Spectroscope function   
   
   
