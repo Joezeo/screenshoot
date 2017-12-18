@@ -18,9 +18,10 @@ This program is written in `C` and uses the `win32 API`.
 Completing the basic screenshot function.  
 * Brush function   
 * When the image is intercepted, the select box is displayed function.  
+* Save bmp file function  
   
 `Todo list:`  
-* Save picture function  
+
 * During the screenshot, the Spectroscope function   
   
   
