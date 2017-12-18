@@ -138,6 +138,4 @@ save_bmp_file(HBITMAP hbmScreen, LPSTR strFilename, HDC hdc) {
 	//Close the handle for the file that was created
 	CloseHandle(hFile);
 
-	//Clean up
-
 }
