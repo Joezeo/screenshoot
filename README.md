@@ -14,6 +14,7 @@ This program is written in `C` and uses the `win32 API`.
   
   
 ### `Method of operation`  
+![image](https://github.com/Joezeo/screenshoot/blob/master/res/operation.gif)  
   
 ### `Current state ` 
 [![Travis](https://img.shields.io/badge/Progress-90%20%25-red.svg?style=flat-square)]()  
