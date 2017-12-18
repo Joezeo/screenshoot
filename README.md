@@ -24,7 +24,7 @@ The main current version features:
 * Brush function.   
 * When the image is intercepted, the select box is displayed function.  
 * Save bmp file function.  
-  
+   
 `Todo list:`  
 
 * During the screenshot, the Spectroscope function.   
