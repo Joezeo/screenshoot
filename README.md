@@ -12,18 +12,22 @@ First of all, this's a `wheel `.
 The software is modeled on a screenshot of the Microsoft system.  
 This program is written in `C` and uses the `win32 API`.  
   
+  
+### `Method of operation`  
+  
 ### `Current state ` 
-[![Travis](https://img.shields.io/badge/Progress-90%20%25-red.svg?style=flat-square)]()
+[![Travis](https://img.shields.io/badge/Progress-90%20%25-red.svg?style=flat-square)]()  
 `The version 0.1.0 is already compelted.  `    
 The main current version features:  
-* Capture image function
-* Brush function   
+* Capture image function.
+* Brush function.   
 * When the image is intercepted, the select box is displayed function.  
-* Save bmp file function  
+* Save bmp file function.  
   
 `Todo list:`  
 
-* During the screenshot, the Spectroscope function   
+* During the screenshot, the Spectroscope function.   
+* Support for more save file formats.  
   
   
 ### `File structure`  
