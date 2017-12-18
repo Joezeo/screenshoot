@@ -549,6 +549,18 @@ SaveProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
 					MessageBox(NULL, sFile.lpstrFile, TEXT("±£´æµ½"), 0);
 
+					HBITMAP hbmp;
+
+					hdc = GetDC(hwnd);
+
+					hbmp = GetSrcBit(cap.memDc, cap.picSize.cx, cap.picSize.cy);
+
+					save_bmp_file(hbmp, sFile.lpstrFile, hdc);
+
+					ReleaseDC(hwnd, hdc);
+
+					DeleteObject(hbmp);
+
 				}
 
 				break;
