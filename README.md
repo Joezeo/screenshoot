@@ -14,6 +14,7 @@ This program is written in `C` and uses the `win32 API`.
   
   
 ### `Method of operation`  
+![image](https://github.com/Joezeo/screenshoot/blob/master/res/operation.gif)  
   
 ### `Current state ` 
 [![Travis](https://img.shields.io/badge/Progress-90%20%25-red.svg?style=flat-square)]()  
@@ -23,7 +24,7 @@ The main current version features:
 * Brush function.   
 * When the image is intercepted, the select box is displayed function.  
 * Save bmp file function.  
-  
+   
 `Todo list:`  
 
 * During the screenshot, the Spectroscope function.   
