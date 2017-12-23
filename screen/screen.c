@@ -1,3 +1,18 @@
+/*
++
+-             作者：Joezeo < joezeo@outlook.com >
++
+-             创建时间：2017.12.23 / 21：46
++
+-             修改时间：2017.12.23 / 21：46
++
+-             文件名称：screen.c
++
+-             功能：screen模块的源文件，包括screen模块函数的定义。
++                  screen模块的主要功能为截取桌面图像，画出桌面图像
+-
++
+*/
 #include "screen.h"
 
 // 初始化SCREEN实例
@@ -24,7 +39,7 @@ init_screen(SCREEN *screen, HWND hwnd) {
 }
 
 
-// 屏幕截取，将截取的图像存入 全局变量hdcMemDc 中
+// 屏幕截取，将截取的图像存入 SCREEN结构体的hdcMemDc 中
 void 
 screen_caption(HWND hWnd, SCREEN *screen){
 

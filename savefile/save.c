@@ -1,3 +1,17 @@
+/*
++
+-             作者：Joezeo < joezeo@outlook.com >
++
+-             创建时间：2017.12.23 / 21：53
++
+-             修改时间：2017.12.23 / 21：53
++
+-             文件名称：save.c
++
+-             功能：save模块的源文件，包括save模块函数的定义。
++                  save模块的主要功能是在截图完毕，画刷画图完毕后，保存图片。
++
+*/
 #include "save.h"
 
 TCHAR				strFilename[MAX_PATH];

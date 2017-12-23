@@ -1,3 +1,18 @@
+/*
++
+-             作者：Joezeo < joezeo@outlook.com >
++
+-             创建时间：2017.12.23 / 21：37
++
+-             修改时间：2017.12.23 / 21：37
++
+-             文件名称：capturer.h
++
+-             功能：capture模块的头文件，包括包含文件，宏定义，capture模块函数的前向声明。
++                  capture模块的主要功能为从已经截取的桌面图像中，用户截取图像。图像存放在CAPTURE结构体的memDC中。
+-
++
+*/
 #ifndef __CAPTURER_H__
 #define __CAPTURER_H__
 
